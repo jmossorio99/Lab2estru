@@ -1,9 +1,7 @@
 package controller;
 
 import java.io.IOException;
-
 import javax.swing.JOptionPane;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,14 +31,14 @@ public class MainWindowController {
 	@FXML
 	void nextBtnClicked(ActionEvent event) {
 
-		if (!cashierNumTxt.getText().isEmpty()) {
+		//if (!cashierNumTxt.getText().isEmpty()) {
 
-			if (!shelfNumTxt.getText().isEmpty()) {
+			//if (!shelfNumTxt.getText().isEmpty()) {
 
 				if (!popped) {
 
-					cashierNum = Integer.parseInt(cashierNumTxt.getText());
-					shelfNum = Integer.parseInt(shelfNumTxt.getText());
+//					cashierNum = Integer.parseInt(cashierNumTxt.getText());
+//					shelfNum = Integer.parseInt(shelfNumTxt.getText());
 					FXMLLoader loader = new FXMLLoader(getClass().getResource(("/view/PopUpWindowView.fxml")));
 					try {
 						Parent root = loader.load();
@@ -54,15 +52,15 @@ public class MainWindowController {
 					}
 				}
 
-			} else {
-				JOptionPane.showMessageDialog(null, "Please insert the number of shelves", "Error",
-						JOptionPane.ERROR_MESSAGE);
-			}
+//			} else {
+//				JOptionPane.showMessageDialog(null, "Please insert the number of shelves", "Error",
+//						JOptionPane.ERROR_MESSAGE);
+//			}
 
-		} else {
-			JOptionPane.showMessageDialog(null, "Please insert the number of cashiers", "Error",
-					JOptionPane.ERROR_MESSAGE);
-		}
+//		} else {
+//			JOptionPane.showMessageDialog(null, "Please insert the number of cashiers", "Error",
+//					JOptionPane.ERROR_MESSAGE);
+//		}
 
 	}
 
