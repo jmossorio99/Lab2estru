@@ -7,6 +7,13 @@ public class GenericMinHeap<T extends Comparable<T>> {
 	private int maxsize;
 
 	@SuppressWarnings("unchecked")
+	public GenericMinHeap(int maxsize) {
+		this.maxsize = maxsize;
+		this.size = 0;
+		heap = (T[]) new Comparable[maxsize];
+	}
+	
+	@SuppressWarnings("unchecked")
 	public GenericMinHeap(T[] array, int maxsize) {
 		this.size = array.length;
 		this.maxsize = maxsize;
