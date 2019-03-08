@@ -1,6 +1,6 @@
 package model;
 
-public class GenericMinHeap<T extends Comparable> {
+public class GenericMinHeap<T extends Comparable<T>> {
 
 	private T[] heap;
 	private int size;
