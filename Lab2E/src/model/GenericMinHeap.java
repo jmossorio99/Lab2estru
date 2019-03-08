@@ -1,12 +1,12 @@
 package model;
 
-public class MinHeap<T extends Comparable> {
+public class GenericMinHeap<T extends Comparable> {
 
 	private T[] heap;
 	private int size;
 	private int maxsize;
 	
-	public MinHeap(T[] array, int maxsize) {
+	public GenericMinHeap(T[] array, int maxsize) {
 		this.size = array.length;
 		this.maxsize = maxsize;
 		heap = (T[]) new Comparable[maxsize];
