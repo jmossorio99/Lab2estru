@@ -14,9 +14,41 @@ public class Client implements Comparable<Client> {
 
 	}
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
+	}
+
+	public GenericStack<Book> getCart() {
+		return cart;
+	}
+
+	public void setCart(GenericStack<Book> cart) {
+		this.cart = cart;
+	}
+
 	@Override
-	public int compareTo(Client arg0) {
-		return 0;
+	public int compareTo(Client c) {
+
+		if (getTime() > c.getTime()) {
+			return 1;
+		} else if (getTime() < c.getTime()) {
+			return -1;
+		} else {
+			return 0;
+		}
+
 	}
 
 }

@@ -4,11 +4,13 @@ public class Book {
 
 	private String isbn;
 	private double price;
+	private int units;
 
-	public Book(String isbn, double price) {
+	public Book(String isbn, double price, int units) {
 
 		this.isbn = isbn;
 		this.price = price;
+		this.units = units;
 
 	}
 
@@ -26,6 +28,14 @@ public class Book {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public int getUnits() {
+		return units;
+	}
+
+	public void setUnits(int units) {
+		this.units = units;
 	}
 
 }
