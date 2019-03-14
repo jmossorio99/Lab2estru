@@ -41,7 +41,7 @@ public class MainWindowController {
 
 		File file = fc.showOpenDialog((Stage) (((Node) event.getSource()).getScene().getWindow()));
 		readFile(file);
-		System.out.println(file.getAbsolutePath().toString());
+		routeTxt.setText(file.getAbsolutePath().toString());
 
 	}
 
@@ -69,7 +69,6 @@ public class MainWindowController {
 				for (int i = 0; i < numOfCases; i++) {
 
 					numOfCashiers = Integer.parseInt(buff.readLine());
-					System.out.println(numOfCashiers);
 					store = new Store(numOfCashiers, this);
 					numOfShelves = Integer.parseInt(buff.readLine());
 					for (int j = 0; j < numOfShelves; j++) {
@@ -91,7 +90,6 @@ public class MainWindowController {
 					}
 					int clientNum = Integer.parseInt(buff.readLine());
 					store.setClientsSize(clientNum);
-					// System.out.println(buff.readLine());
 					for (int j = 0; j < clientNum; j++) {
 
 						String[] infoClient = buff.readLine().split(" ");
@@ -100,7 +98,6 @@ public class MainWindowController {
 						for (int k = 1; k <= infoClient.length - 1; k++) {
 							store.addBookToCart(infoClient[k], j);
 						}
-						System.out.println(store.getClientCartTemp(j));
 					}
 					startCheckOut();
 
@@ -138,11 +135,8 @@ public class MainWindowController {
 			ArrayList<Client> clients = store.getClientsExit();
 			for (int i = 0; i < clients.size(); i++) {
 				pr.println(clients.get(i).getId() + " " + store.getClientValue(i));
-//				String id = clients.get(i).getId();
-//				String value = store.getClientValue(i);
 				pr.println(store.getClientCart(i));
 			}
-			pr.println(clients.size());
 			pr.println();
 			pr.close();
 		} catch (IOException e) {

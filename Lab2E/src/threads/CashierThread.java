@@ -6,8 +6,7 @@ import model.GenericStack;
 import model.Store;
 
 public class CashierThread extends Thread {
-
-	private boolean running = false;
+	
 	private Store store;
 	private Client currentClient;
 	private GenericStack<Book> newStack = new GenericStack<Book>();
@@ -16,10 +15,6 @@ public class CashierThread extends Thread {
 
 		this.store = store;
 
-	}
-
-	public void init() {
-		running = true;
 	}
 
 	@Override

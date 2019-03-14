@@ -107,7 +107,7 @@ public class Store {
 		return cart;
 
 	}
-	
+
 	public String getClientCartTemp(int index) {
 		String cart = "";
 		GenericStack<Book> s = clients.get(index).getCart();
