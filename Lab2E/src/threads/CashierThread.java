@@ -24,9 +24,9 @@ public class CashierThread extends Thread {
 
 	@Override
 	public void run() {
-
 		super.run();
 		while (!store.isQueueEmpty()) {
+			newStack = new GenericStack<Book>();
 			currentClient = store.getClientFromQueue();
 			GenericStack<Book> stack1 = currentClient.getCart();
 			while (!stack1.isEmpty()) {
