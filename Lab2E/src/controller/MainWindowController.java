@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,7 +34,6 @@ public class MainWindowController {
 	private Store store;
 	private int numOfCashiers = 0;
 	private int numOfShelves = 0;
-	private File output;
 
 	@FXML
 	void exploreBtnClicked(ActionEvent event) {
@@ -84,12 +82,14 @@ public class MainWindowController {
 
 					}
 					int clientNum = Integer.parseInt(buff.readLine());
+					store.setClientsSize(clientNum);
+					// System.out.println(buff.readLine());
 					for (int j = 0; j < clientNum; j++) {
 
 						String[] infoClient = buff.readLine().split(" ");
 						store.addClient(infoClient[0], j + 1);
 
-						for (int k = 1; k < infoClient.length; k++) {
+						for (int k = 1; k <= infoClient.length - 1; k++) {
 							store.addBookToCart(infoClient[k], j);
 						}
 
@@ -122,14 +122,18 @@ public class MainWindowController {
 
 	public void printOutput() {
 
-		output = new File("output");
 		try {
+			File output = new File("output.txt");
 			PrintWriter pr = new PrintWriter(output);
 			ArrayList<Client> clients = store.getClientsExit();
 			for (int i = 0; i < clients.size(); i++) {
 				pr.println(clients.get(i).getId() + " " + store.getClientValue(i));
+//				String id = clients.get(i).getId();
+//				String value = store.getClientValue(i);
 				pr.println(store.getClientCart(i));
 			}
+			pr.println();
+			pr.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

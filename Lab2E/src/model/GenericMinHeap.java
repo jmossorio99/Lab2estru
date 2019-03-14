@@ -64,7 +64,8 @@ public class GenericMinHeap<T extends Comparable<T>> {
 	 
 	    @SuppressWarnings("unchecked")
 		public void insert(T element) {
-	        heap[++size] = element;
+	    	size += 1;
+	        heap[size] = element;
 	        int current = size;
 	        while(current > 1 && heap[current].compareTo(heap[parent(current)]) < 0) {
 	            swap(current,parent(current));

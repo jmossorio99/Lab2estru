@@ -25,10 +25,12 @@ public class Shelf {
 	}
 
 	public void subtractUnit(Book b) {
-		if (b.getUnits() > 0) {
-			b.setUnits(b.getUnits() - 1);
-		} else {
-			hashTable.remove(b.getIsbn());
+		if (b != null) {
+			if (b.getUnits() > 0) {
+				b.setUnits(b.getUnits() - 1);
+			} else {
+				hashTable.remove(b.getIsbn());
+			}
 		}
 	}
 

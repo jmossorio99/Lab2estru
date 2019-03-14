@@ -4,57 +4,49 @@ import java.util.ArrayList;
 
 public class GenericStack<T> {
 
-	private ArrayList<T> stack;
+	private Object<T> first;
+	private long elements;
 
 	public GenericStack() {
-
-		stack = new ArrayList<T>();
-
+		elements = 0;
 	}
 
-	public GenericStack(T[] arr) {
+	@SuppressWarnings("unchecked")
+	public T pop() {
+		T value = first.getObject();
 
-		stack = new ArrayList<T>();
-		for (int i = 0; i < arr.length; i++) {
-			stack.add(arr[i]);
+		if (elements == 1) {
+			first = null;
+			elements--;
+		} else {
+			first = first.getNext();
+			elements--;
 		}
 
-	}
-
-	public ArrayList<T> getStack() {
-		return stack;
-	}
-
-	public void setStack(ArrayList<T> stack) {
-		this.stack = stack;
+		return value;
 	}
 
 	public T peek() {
-		return stack.get(stack.size() - 1);
+		return first.getObject();
 	}
 
-	public T pop() {
-		T r = stack.get(stack.size() - 1);
-		stack.remove(r);
-		return r;
-	}
-
-	public void push(T elem) {
-		stack.add(elem);
-	}
-
-	public int search(T elem) {
-		int r = -1;
-		for (int i = 0; i < stack.size(); i++) {
-			if (stack.get(i).equals(elem)) {
-				r = i;
-			}
+	public void push(T element) {
+		Object<T> obj = new Object<T>(element);
+		if (first == null) {
+			first = obj;
+			elements++;
+		} else {
+			obj.setNext(first);
+			first = obj;
+			elements++;
 		}
-		return r;
 	}
 
 	public boolean isEmpty() {
-		return (stack.isEmpty() ? true : false);
+		if (elements == 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
-
 }

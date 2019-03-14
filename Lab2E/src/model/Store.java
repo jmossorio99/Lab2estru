@@ -8,12 +8,11 @@ import threads.CashierThread;
 public class Store {
 
 	private int finishedCashiers = 0;
-	private Client[] clients;
+	private ArrayList<Client> clients;
 	private ArrayList<Client> clientsExit = new ArrayList<Client>();
 	private CashierThread[] cashierThreads;
 	private ArrayList<Shelf> shelves;
 	private GenericMinPriorityQueue<Client> queue;
-	private int lastClientAdded = 0;
 	private MainWindowController controller;
 
 	public Store(int cashierNum, MainWindowController controller) {
@@ -27,9 +26,13 @@ public class Store {
 
 	}
 
+	public void setClientsSize(int num) {
+		clients = new ArrayList<Client>();
+		queue = new GenericMinPriorityQueue<Client>(num + 2);
+	}
+
 	public void addClient(String id, int time) {
-		clients[lastClientAdded] = new Client(id, time);
-		lastClientAdded++;
+		clients.add(new Client(id, time));
 	}
 
 	public void addShelf(String id, int bookNum) {
@@ -42,7 +45,7 @@ public class Store {
 
 	public void addBookToCart(String isbn, int clientIndex) {
 
-		Client c = clients[clientIndex];
+		Client c = clients.get(clientIndex);
 		Book book = searchBook(isbn);
 		if (book != null) {
 			c.addBookToCart(book);
@@ -67,8 +70,8 @@ public class Store {
 	@SuppressWarnings("unchecked")
 	public void insertClientsIntoQueue() {
 
-		for (int i = 0; i < clients.length; i++) {
-			queue.offer(clients[i]);
+		for (int i = 0; i < clients.size(); i++) {
+			queue.offer(clients.get(i));
 		}
 
 	}
@@ -90,11 +93,16 @@ public class Store {
 	public String getClientCart(int index) {
 
 		String cart = "";
-		GenericStack<Book> s = clients[index].getCart();
+		GenericStack<Book> s = clientsExit.get(index).getCart();
+		GenericStack<Book> copy = new GenericStack<Book>();
 		while (!s.isEmpty()) {
 
 			cart += s.peek().getIsbn() + " ";
+			copy.push(s.pop());
 
+		}
+		while (!copy.isEmpty()) {
+			s.push(copy.pop());
 		}
 		return cart;
 
@@ -105,10 +113,15 @@ public class Store {
 		String value;
 		int v = 0;
 		GenericStack<Book> s = clientsExit.get(index).getCart();
+		GenericStack<Book> copy = new GenericStack<Book>();
 		while (!s.isEmpty()) {
 
 			v += s.peek().getPrice();
+			copy.push(s.pop());
 
+		}
+		while (!copy.isEmpty()) {
+			s.push(copy.pop());
 		}
 		value = "" + v;
 		return value;
@@ -128,6 +141,11 @@ public class Store {
 
 	public ArrayList<Client> getClientsExit() {
 		return clientsExit;
+	}
+
+	public ArrayList<Client> clients() {
+		// TODO Auto-generated method stub
+		return clients;
 	}
 
 }
