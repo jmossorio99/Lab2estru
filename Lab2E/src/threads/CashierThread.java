@@ -21,13 +21,21 @@ public class CashierThread extends Thread {
 	public void run() {
 
 		super.run();
+		while (!store.isQueueEmpty()) {
 
-	}
+			currentClient = store.getClientFromQueue();
+			GenericStack<Book> stack1 = currentClient.getCart();
+			while (!stack1.isEmpty()) {
+				newStack.push(stack1.pop());
+				try {
+					sleep(50);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			store.addClientExit(currentClient);
+			currentClient.setCart(newStack);
 
-	public void reverseStack(GenericStack<Book> stack1) {
-
-		while (!stack1.isEmpty()) {
-			newStack.push(stack1.pop());
 		}
 
 	}

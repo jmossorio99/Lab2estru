@@ -15,9 +15,21 @@ public class Shelf {
 	}
 
 	public void addBook(Book b) {
-
 		hashTable.put(b.getIsbn(), b);
+	}
 
+	public Book getBook(String isbn) {
+		Book b = hashTable.get(isbn);
+		subtractUnit(b);
+		return b;
+	}
+
+	public void subtractUnit(Book b) {
+		if (b.getUnits() > 0) {
+			b.setUnits(b.getUnits() - 1);
+		} else {
+			hashTable.remove(b.getIsbn());
+		}
 	}
 
 }
