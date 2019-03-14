@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -44,13 +45,19 @@ public class MainWindowController {
 
 	}
 
-	@FXML
-	void goBtnClicked(ActionEvent event) {
-
-	}
-
 	public void readFile(File file) {
 
+		File output = new File("output.txt");
+		if (output.exists()) {
+			PrintWriter writer;
+			try {
+				writer = new PrintWriter(output);
+				writer.print("");
+				writer.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
 		String fileName = file.getName();
 		if (fileName.contains(".txt")) {
 
@@ -62,6 +69,7 @@ public class MainWindowController {
 				for (int i = 0; i < numOfCases; i++) {
 
 					numOfCashiers = Integer.parseInt(buff.readLine());
+					System.out.println(numOfCashiers);
 					store = new Store(numOfCashiers, this);
 					numOfShelves = Integer.parseInt(buff.readLine());
 					for (int j = 0; j < numOfShelves; j++) {
@@ -123,8 +131,10 @@ public class MainWindowController {
 	public void printOutput() {
 
 		try {
-			File output = new File("output.txt");
-			PrintWriter pr = new PrintWriter(output);
+
+			FileWriter fr = new FileWriter("output.txt", true);
+			BufferedWriter bw = new BufferedWriter(fr);
+			PrintWriter pr = new PrintWriter(bw);
 			ArrayList<Client> clients = store.getClientsExit();
 			for (int i = 0; i < clients.size(); i++) {
 				pr.println(clients.get(i).getId() + " " + store.getClientValue(i));
@@ -132,9 +142,10 @@ public class MainWindowController {
 //				String value = store.getClientValue(i);
 				pr.println(store.getClientCart(i));
 			}
+			pr.println(clients.size());
 			pr.println();
 			pr.close();
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
