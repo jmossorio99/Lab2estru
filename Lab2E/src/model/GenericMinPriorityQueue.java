@@ -26,13 +26,11 @@ public class GenericMinPriorityQueue<T extends Comparable<T>> {
 	}
 	
 	public T poll() {
-		if(Heap.getSize() <= 0) {
+		if (Heap.getSize() <= 0)
 			return null;
-		}else {
-			T elem = Heap.get(1);
-			Heap.set(1, Heap.get(Heap.getSize()));
-			Heap.remove(Heap.getSize());
-			return elem;
+		else {
+			T minVal = Heap.remove(1);
+			return minVal;
 		}
 	}
 	

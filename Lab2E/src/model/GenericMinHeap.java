@@ -6,93 +6,101 @@ public class GenericMinHeap<T extends Comparable<T>> {
 	private int size;
 	private int maxsize;
 
-	@SuppressWarnings("unchecked")
-	public GenericMinHeap(int maxsize) {
-		this.maxsize = maxsize;
-		this.size = 0;
-		heap = (T[]) new Comparable[maxsize];
-	}
-	
-	@SuppressWarnings("unchecked")
-	public GenericMinHeap(T[] array, int maxsize) {
-		this.size = array.length;
-		this.maxsize = maxsize;
-		heap = (T[]) new Comparable[maxsize];
-		for (int i = 0; i < array.length; i++) {
-			heap[i + 1] = array[i];
-		}
-		buildMinHeap();
-	}
-
-	private int parent(int position) {
-		return position / 2;
-	}
-
-	private int leftChild(int position) {
-		return 2 * position;
-	}
-
-	private int rightChild(int position) {
-		return (2 * position) + 1;
-	}
-
-	public int getSize() {
-		return size;
-	}
-
-	public T get(int pos) {
-		return heap[pos];
-	}
-
-	private void exchange(int pos1, int pos2) {
-		T temp = heap[pos1];
-		heap[pos1] = heap[pos2];
-		heap[pos2] = temp;
-	}
-
-	@SuppressWarnings("unchecked")
-	private void minHeapify(int pos) {
-		int smallest;
-		int left = leftChild(pos);
-		int right = rightChild(pos);
-		if (left <= size && heap[left].compareTo(heap[pos]) < 0) {
-			smallest = left;
-		} else {
-			smallest = pos;
-		}
-		if (right <= size && heap[right].compareTo(heap[smallest]) < 0) {
-			smallest = right;
-		}
-		if (smallest != pos) {
-			exchange(smallest, pos);
-			minHeapify(smallest);
-		}
-	}
-
-	private void buildMinHeap() {
-		for (int i = size / 2; i >= 1; i--) {
-			minHeapify(i);
-		}
-	}
-
-	public void insert(T element) {
-        heap[++size] = element;
-        int current = size;
-        while(current > 1 && heap[current].compareTo(heap[parent(current)]) < 0) {
-            exchange(current,parent(current));
-            current = parent(current);
-        }
-    }
-
-	public void set(int pos, T elem) {
-		heap[pos] = elem;
-	}
-
-	public T remove(int pos) {
-		T removed = heap[pos];
-		heap[pos] = heap[size--];
-		minHeapify(pos);
-		return removed;
-	}
+	 @SuppressWarnings("unchecked")
+		public GenericMinHeap(int maxsize) {
+	        this.maxsize = maxsize;
+	        this.size = 0;
+	        heap = (T[]) new Comparable[maxsize];
+	    }
+	    
+	    public GenericMinHeap(T[] array, int maxsize) {
+	    	this.maxsize = maxsize;
+	        this.size = array.length;
+	        heap = (T[]) new Comparable[maxsize];
+	        for(int i=0;i<array.length;i++)
+	        	heap[i+1] = array[i];
+	        buildMinHeap();
+	    }
+	 
+	    private int parent(int pos) {
+	        return pos / 2;
+	    }
+	 
+	    private int leftChild(int pos) {
+	        return (2 * pos);
+	    }
+	 
+	    private int rightChild(int pos) {
+	        return (2 * pos) + 1;
+	    }
+	 
+	    private void swap(int fpos,int spos) {
+	        T tmp;
+	        tmp = heap[fpos];
+	        heap[fpos] = heap[spos];
+	        heap[spos] = tmp;
+	    }
+	 
+	    @SuppressWarnings("unchecked")
+		private void minHeapify(int pos) {
+	    	int smallest;
+	    	int l = leftChild(pos);
+	    	int r = rightChild(pos);
+	    	if(l <= size && heap[l].compareTo(heap[pos]) < 0)
+	    		smallest = l;
+	    	else
+	    		smallest = pos;
+	    	if(r <= size && heap[r].compareTo(heap[smallest]) < 0)
+	    		smallest = r;
+	    	if (smallest != pos) {
+	    		swap(pos, smallest);
+	    		minHeapify(smallest);
+	    	}
+	    }
+	    
+	    public int getSize() {
+	    	return this.size;
+	    }
+	 
+	    @SuppressWarnings("unchecked")
+		public void insert(T element) {
+	        heap[++size] = element;
+	        int current = size;
+	        while(current > 1 && heap[current].compareTo(heap[parent(current)]) < 0) {
+	            swap(current,parent(current));
+	            current = parent(current);
+	        }	
+	    }
+	    
+	    public void print() {
+	    	System.out.print("[");
+	        for (int i = 1; i <= size; i++ ) {
+	        	if(i==size)
+	        		System.out.print(heap[i]);
+	        	else
+	        		System.out.print(heap[i]+", ");
+	        }
+	        System.out.println("]");
+	    }
+	 
+	    public void buildMinHeap() {
+	    	for(int i=size/2;i>=1;i--)
+	    		minHeapify(i);
+	    }
+	    
+	    public T get(int pos) {
+	    	return heap[pos];
+	    }
+	    
+	    public void set(int pos, T element) {
+	    	heap[pos] = element;
+	    }
+	    
+	    public T remove(int pos) {
+	    	T extracted = heap[pos];
+	        heap[pos] = heap[size--]; 
+	        minHeapify(pos);
+	        return extracted;
+	    }
 
 }
