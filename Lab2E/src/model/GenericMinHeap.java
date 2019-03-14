@@ -75,14 +75,14 @@ public class GenericMinHeap<T extends Comparable<T>> {
 		}
 	}
 
-	public void insert(T elem) {
-		heap[++size] = elem;
-		int current = size;
-		while (size > 1 && heap[current].compareTo(heap[parent(current)]) < 0) {
-			exchange(current, parent(current));
-			current = parent(current);
-		}
-	}
+	public void insert(T element) {
+        heap[++size] = element;
+        int current = size;
+        while(current > 1 && heap[current].compareTo(heap[parent(current)]) < 0) {
+            exchange(current,parent(current));
+            current = parent(current);
+        }
+    }
 
 	public void set(int pos, T elem) {
 		heap[pos] = elem;
