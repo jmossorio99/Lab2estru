@@ -14,6 +14,11 @@ public class Client implements Comparable<Client> {
 
 	}
 
+	public void addBookToCart(Book b) {
+		cart.push(b);
+		setTime(time + 1);
+	}
+
 	public String getId() {
 		return id;
 	}
