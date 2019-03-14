@@ -107,6 +107,22 @@ public class Store {
 		return cart;
 
 	}
+	
+	public String getClientCartTemp(int index) {
+		String cart = "";
+		GenericStack<Book> s = clients.get(index).getCart();
+		GenericStack<Book> copy = new GenericStack<Book>();
+		while (!s.isEmpty()) {
+
+			cart += s.peek().getIsbn() + " ";
+			copy.push(s.pop());
+
+		}
+		while (!copy.isEmpty()) {
+			s.push(copy.pop());
+		}
+		return cart;
+	}
 
 	public String getClientValue(int index) {
 

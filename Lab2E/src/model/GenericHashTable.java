@@ -104,12 +104,15 @@ public class GenericHashTable<K, T> {
 
 		if (numberOfKeysUsed != 0) {
 			int position = hash(key.hashCode());
-			if (hashTable[position].getKey().equals(key)) {
-				value = (T) hashTable[position].getElement();
-			}
-			// hubo colision
-			else {
-				value = getR(position + 1, key);
+			if (hashTable[position] != null) {
+				
+				if (hashTable[position].getKey().equals(key)) {
+					value = (T) hashTable[position].getElement();
+				}
+				// hubo colision
+				else {
+					value = getR(position + 1, key);
+				}
 			}
 		}
 

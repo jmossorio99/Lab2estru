@@ -20,7 +20,7 @@ public class Shelf {
 
 	public Book getBook(String isbn) {
 		Book b = hashTable.get(isbn);
-		subtractUnit(b);
+		//subtractUnit(b);
 		return b;
 	}
 

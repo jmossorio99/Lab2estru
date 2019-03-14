@@ -37,6 +37,7 @@ public class CashierThread extends Thread {
 					e.printStackTrace();
 				}
 			}
+			currentClient.setCart(newStack);
 			store.addClientExit(currentClient);
 		}
 		store.cashierFinished();

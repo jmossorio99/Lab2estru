@@ -92,7 +92,7 @@ public class MainWindowController {
 						for (int k = 1; k <= infoClient.length - 1; k++) {
 							store.addBookToCart(infoClient[k], j);
 						}
-
+						System.out.println(store.getClientCartTemp(j));
 					}
 					startCheckOut();
 
