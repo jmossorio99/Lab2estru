@@ -50,17 +50,6 @@ public class MainWindowController {
 
 	public void readFile(File file) {
 
-//		File output = new File("output.txt");
-//		if (output.exists()) {
-//			PrintWriter writer;
-//			try {
-//				writer = new PrintWriter(output);
-//				writer.print("");
-//				writer.close();
-//			} catch (FileNotFoundException e) {
-//				e.printStackTrace();
-//			}
-//		}
 		String fileName = file.getName();
 		if (fileName.contains(".txt")) {
 
