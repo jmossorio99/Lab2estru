@@ -33,8 +33,11 @@ public class MainWindowController {
 	private FileChooser fc = new FileChooser();
 	private int numOfCases = 0;
 	private Store store;
+	private int storesDone = 0;
 	private int numOfCashiers = 0;
 	private int numOfShelves = 0;
+	private String outputContent = "";
+	private ArrayList<Store> stores;
 
 	@FXML
 	void exploreBtnClicked(ActionEvent event) {
@@ -47,17 +50,17 @@ public class MainWindowController {
 
 	public void readFile(File file) {
 
-		File output = new File("output.txt");
-		if (output.exists()) {
-			PrintWriter writer;
-			try {
-				writer = new PrintWriter(output);
-				writer.print("");
-				writer.close();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
+//		File output = new File("output.txt");
+//		if (output.exists()) {
+//			PrintWriter writer;
+//			try {
+//				writer = new PrintWriter(output);
+//				writer.print("");
+//				writer.close();
+//			} catch (FileNotFoundException e) {
+//				e.printStackTrace();
+//			}
+//		}
 		String fileName = file.getName();
 		if (fileName.contains(".txt")) {
 
@@ -66,40 +69,43 @@ public class MainWindowController {
 				FileInputStream fis = new FileInputStream(file);
 				BufferedReader buff = new BufferedReader(new InputStreamReader(fis));
 				numOfCases = Integer.parseInt(buff.readLine());
+				stores = new ArrayList<Store>();
 				for (int i = 0; i < numOfCases; i++) {
 
 					numOfCashiers = Integer.parseInt(buff.readLine());
-					store = new Store(numOfCashiers, this);
+					Store cStore = new Store(numOfCashiers, this);
+					stores.add(cStore);
 					numOfShelves = Integer.parseInt(buff.readLine());
 					for (int j = 0; j < numOfShelves; j++) {
 
 						String[] infoShelf = buff.readLine().split(" ");
 						String id = infoShelf[0];
 						int bookNum = Integer.parseInt(infoShelf[1]);
-						store.addShelf(id, bookNum);
+						cStore.addShelf(id, bookNum);
 						for (int k = 0; k < bookNum; k++) {
 
 							String[] infoBook = buff.readLine().split(" ");
 							String isbn = infoBook[0];
 							double price = Double.parseDouble(infoBook[1]);
 							int units = Integer.parseInt(infoBook[2]);
-							store.addBook(isbn, price, units, j);
+							cStore.addBook(isbn, price, units, j);
 
 						}
 
 					}
 					int clientNum = Integer.parseInt(buff.readLine());
-					store.setClientsSize(clientNum);
+					cStore.setClientsSize(clientNum);
 					for (int j = 0; j < clientNum; j++) {
 
 						String[] infoClient = buff.readLine().split(" ");
-						store.addClient(infoClient[0], j + 1);
+						cStore.addClient(infoClient[0], j + 1);
 
 						for (int k = 1; k <= infoClient.length - 1; k++) {
-							store.addBookToCart(infoClient[k], j);
+							cStore.addBookToCart(infoClient[k], j);
 						}
 					}
-					startCheckOut();
+					cStore.insertClientsIntoQueue();
+					cStore.startThreads();
 
 				}
 
@@ -118,26 +124,31 @@ public class MainWindowController {
 
 	}
 
-	public void startCheckOut() {
+	public void addToOutput() {
 
-		store.insertClientsIntoQueue();
-		store.startThreads();
+		for (int i = 0; i < stores.size(); i++) {
+			outputContent += stores.get(i).getClientsData() + "\n";
+			System.out.println(stores.get(i).getClientsData());
+		}
+		printOutput();
+
+	}
+
+	public void storeDone() {
+
+		storesDone++;
+		if (storesDone == stores.size()) {
+			addToOutput();
+		}
 
 	}
 
 	public void printOutput() {
 
 		try {
-
-			FileWriter fr = new FileWriter("output.txt", true);
-			BufferedWriter bw = new BufferedWriter(fr);
-			PrintWriter pr = new PrintWriter(bw);
-			ArrayList<Client> clients = store.getClientsExit();
-			for (int i = 0; i < clients.size(); i++) {
-				pr.println(clients.get(i).getId() + " " + store.getClientValue(i));
-				pr.println(store.getClientCart(i));
-			}
-			pr.println();
+			File output = new File("output.txt");
+			PrintWriter pr = new PrintWriter(output);
+			pr.println(outputContent);
 			pr.close();
 		} catch (IOException e) {
 			e.printStackTrace();

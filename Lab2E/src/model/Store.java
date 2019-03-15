@@ -108,22 +108,6 @@ public class Store {
 
 	}
 
-	public String getClientCartTemp(int index) {
-		String cart = "";
-		GenericStack<Book> s = clients.get(index).getCart();
-		GenericStack<Book> copy = new GenericStack<Book>();
-		while (!s.isEmpty()) {
-
-			cart += s.peek().getIsbn() + " ";
-			copy.push(s.pop());
-
-		}
-		while (!copy.isEmpty()) {
-			s.push(copy.pop());
-		}
-		return cart;
-	}
-
 	public String getClientValue(int index) {
 
 		String value;
@@ -151,8 +135,21 @@ public class Store {
 	public void cashierFinished() {
 		finishedCashiers++;
 		if (finishedCashiers == cashierThreads.length) {
-			controller.printOutput();
+			controller.storeDone();
 		}
+	}
+
+	public String getClientsData() {
+
+		String r = "";
+		for (int i = 0; i < clientsExit.size(); i++) {
+
+			r += clientsExit.get(i).getId() + " " + getClientValue(i) + "\n";
+			r += getClientCart(i) + "\n";
+
+		}
+		return r;
+
 	}
 
 	public ArrayList<Client> getClientsExit() {
