@@ -19,7 +19,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import model.Book;
 import model.Client;
+import model.GenericMinPriorityQueue;
 import model.Store;
 
 public class MainWindowController {
@@ -32,7 +34,6 @@ public class MainWindowController {
 	private Button goBtn;
 	private FileChooser fc = new FileChooser();
 	private int numOfCases = 0;
-	private Store store;
 	private int storesDone = 0;
 	private int numOfCashiers = 0;
 	private int numOfShelves = 0;
@@ -77,7 +78,7 @@ public class MainWindowController {
 							String isbn = infoBook[0];
 							double price = Double.parseDouble(infoBook[1]);
 							int units = Integer.parseInt(infoBook[2]);
-							cStore.addBook(isbn, price, units, j);
+							cStore.addBook(isbn, price, units, k , j);
 
 						}
 
@@ -88,9 +89,16 @@ public class MainWindowController {
 
 						String[] infoClient = buff.readLine().split(" ");
 						cStore.addClient(infoClient[0], j + 1);
-
+						GenericMinPriorityQueue<Book> booksQueue = new GenericMinPriorityQueue<Book>(1000);
+						
 						for (int k = 1; k <= infoClient.length - 1; k++) {
-							cStore.addBookToCart(infoClient[k], j);
+							
+							booksQueue.offer(cStore.searchBook(infoClient[k]));
+								
+						}
+						
+						for(int k=1; k  <= infoClient.length-1; k++) {
+							cStore.addBookToCart(booksQueue.poll().getIsbn(), j);
 						}
 					}
 					cStore.insertClientsIntoQueue();
@@ -117,7 +125,6 @@ public class MainWindowController {
 
 		for (int i = 0; i < stores.size(); i++) {
 			outputContent += stores.get(i).getClientsData() + "\n";
-			System.out.println(stores.get(i).getClientsData());
 		}
 		printOutput();
 

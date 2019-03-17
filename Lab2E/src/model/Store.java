@@ -39,11 +39,15 @@ public class Store {
 		shelves.add(new Shelf(id, bookNum));
 	}
 
-	public void addBook(String isbn, double price, int units, int shelfIndex) {
-		shelves.get(shelfIndex).addBook(new Book(isbn, price, units));
+	public void addBook(String isbn, double price, int units,int depth, int shelfIndex) {
+		
+		Book newBook = new Book(isbn, price, units);
+		newBook.setPriority(shelfIndex+1, depth+1);
+		shelves.get(shelfIndex).addBook(newBook);
+		
 	}
 
-	public void addBookToCart(String isbn, int clientIndex) {
+	public void addBookToCart(String isbn, int clientIndex) { 
 
 		Client c = clients.get(clientIndex);
 		Book book = searchBook(isbn);

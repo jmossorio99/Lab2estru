@@ -1,10 +1,11 @@
 package model;
 
-public class Book {
+public class Book implements Comparable<Book>{
 
 	private String isbn;
 	private double price;
 	private int units;
+	private double priority;
 
 	public Book(String isbn, double price, int units) {
 
@@ -37,5 +38,29 @@ public class Book {
 	public void setUnits(int units) {
 		this.units = units;
 	}
+	
+	public void setPriority(int shelve, int depth) {
+		this.priority = (shelve*0.8) + (depth*0.2);
+	}
+	
+	public double getPriority() {
+		return priority;
+	}
 
+	@Override
+	public int compareTo(Book o) {
+		
+		if(o.getPriority()==priority) {
+			return 0;
+		}
+		else if(o.getPriority()>priority) {
+			return -1;
+		}
+		else {
+			return 1;
+		}
+		
+	}
+	
+    
 }
